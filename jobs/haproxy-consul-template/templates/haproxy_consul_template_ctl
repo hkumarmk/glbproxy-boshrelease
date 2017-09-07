@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+PID_FILE="/var/vcap/sys/run/haproxy-consul-template.pid"
+
+case "$1" in
+    start)
+        echo -n "Starting haproxy consul template: "
+        /var/vcap/packages/consul-template/bin/consul-template \
+            -pid-file $PID_FILE \
+            -config /var/vcap/jobs/haproxy-consul-template/config/consul-template.config &
+        ;;
+    stop)
+        echo -n "Stopping haproxy consul template: "
+        if pgrep -F $PID_FILE; then
+            kill -SIGINT `cat $PID_FILE`
+        fi
+        ;;
+    status)
+        kill -0 $(cat "${PID_FILE}") > /dev/null 2>&1
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}" >&2
+        RETVAL=1
+        ;;
+esac
+

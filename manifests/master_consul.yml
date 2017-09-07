@@ -1,0 +1,38 @@
+name: master_consul
+instance_groups:
+  - name: default
+    azs: [z1]
+    instances: 3
+    vm_type: default
+    stemcell: ubuntu
+    jobs:
+      - name: consul
+        release: consul
+        provides:
+          consul_servers: { as: consul_leaders }
+        consumes:
+          consul_servers: { from: consul_leaders }
+        properties:
+          consul:
+            datacenter: ((consul.datacenter))
+    networks:
+    - name: default
+#      static_ips: (( static_ips(0, 1, 2, 3, 4) ))
+
+variables:
+- name: consul.datacenter
+releases:
+  - name: consul
+    version: latest
+
+stemcells:
+  - alias: ubuntu
+    os: ubuntu-trusty
+    version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  canary_watch_time: 30000-60000
+  update_watch_time: 5000-60000
+  serial: false

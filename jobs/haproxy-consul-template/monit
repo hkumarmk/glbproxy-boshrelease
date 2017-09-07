@@ -1,0 +1,6 @@
+check process consul-template
+  with pidfile /var/vcap/sys/run/haproxy-consul-template.pid
+  start program "/var/vcap/jobs/haproxy-consul-template/bin/ctl start"
+  stop program "/var/vcap/jobs/haproxy-consul-template/bin/ctl stop"
+  group vcap
+

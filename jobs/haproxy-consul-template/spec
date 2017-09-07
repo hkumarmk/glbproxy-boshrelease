@@ -1,0 +1,8 @@
+---
+name: haproxy-consul-template
+
+templates:
+  haproxy.config.ctmpl: config/haproxy.config.ctmpl
+  haproxy_consul_template_ctl: bin/ctl
+  haproxy-consul-template.conf: config/consul-template.config
+
