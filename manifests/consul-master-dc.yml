@@ -1,4 +1,4 @@
-name: master_consul
+name: consul-master-dc
 instance_groups:
   - name: default
     azs: [z1]
@@ -14,13 +14,11 @@ instance_groups:
           consul_servers: { from: consul_leaders }
         properties:
           consul:
-            datacenter: ((consul.datacenter))
+            datacenter: &consul-datacenter master
     networks:
     - name: default
 #      static_ips: (( static_ips(0, 1, 2, 3, 4) ))
 
-variables:
-- name: consul.datacenter
 releases:
   - name: consul
     version: latest

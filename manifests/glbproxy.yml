@@ -1,4 +1,4 @@
-name: glbproxy
+name: glbproxy-((consul-datacenter))
 instance_groups:
   - name: default
     azs: [z1]
@@ -14,7 +14,8 @@ instance_groups:
           consul_servers: { from: consul_leaders }
         properties:
           consul:
-            datacenter: ((consul.datacenter))
+            datacenter: ((consul-datacenter))
+            wan_servers: ((consul-wan-servers))
       - name: haproxy-consul-template
         release: glbproxy
       - name: haproxy
@@ -23,8 +24,6 @@ instance_groups:
     - name: default
 #      static_ips: (( static_ips(0, 1, 2, 3, 4) ))
 
-variables:
-- name: consul.datacenter
 releases:
   - name: glbproxy
     version: latest
